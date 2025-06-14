@@ -16,3 +16,15 @@ Looks good, fast and usable, speed toggling is fun.
 ### Budget
 
 2 hours of grunt work, lunch time.
+
+## Make sure it is correct
+
+### Focus
+
+- Ensure correctness of the results, but extracting the complicated core logic to a new grid.ts file, isolate it in a pure function easy to test for correctness and make the React module easier to process.
+- Use immutability to be able to use identity to check for changes
+- Stop the simulation when it stales (identity check)
+
+### Budget
+
+1/2 an hour

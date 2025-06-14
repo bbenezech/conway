@@ -27,7 +27,7 @@
     "noImplicitReturns": true,
     "noImplicitOverride": true,
     "lib": ["es2024", "dom"],
-    "types": []
+    "types": ["node"]
   },
   "include": ["src", "jest.setup.ts"]
 }

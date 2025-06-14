@@ -14,6 +14,7 @@ export default tseslint.config(
       "**/coverage/",
       "**/assets/",
       "**/public/",
+      "**/tmp/",
     ],
   },
   ...tseslint.configs.recommended, // https://typescript-eslint.io/users/configs/#recommended, https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/eslintrc/recommended.ts

@@ -1,9 +1,11 @@
 import React from "react";
 import clsx from "clsx";
 import { loadJSONFile, saveJSONFile } from "./lib/file";
+import { createGrid, simulate } from "./lib/grid";
 
-const createGrid = (columns: number, density: number): boolean[][] =>
-  Array.from({ length: columns }, () => Array.from({ length: columns }, () => Math.random() < density));
+const DEFAULT_DENSITY = 0.3;
+const DEFAULT_SIZE = 10;
+const DEFAULT_FPS = 10;
 
 const controlTextStyle = "text-sm font-semibold text-white";
 
@@ -60,9 +62,9 @@ const Slider = ({
 );
 
 export const App = () => {
-  const [density, setDensity] = React.useState(0);
-  const [fps, setFPS] = React.useState(10);
-  const [size, setSize] = React.useState(10);
+  const [density, setDensity] = React.useState(DEFAULT_DENSITY);
+  const [fps, setFPS] = React.useState(DEFAULT_FPS);
+  const [size, setSize] = React.useState(DEFAULT_SIZE);
   const [grid, setGrid] = React.useState(() => createGrid(size, 0));
   const [running, setRunning] = React.useState(false);
   const loopRef = React.useRef<number>(null);
@@ -71,33 +73,21 @@ export const App = () => {
     setGrid(createGrid(size, density));
   }, [size, density]);
 
+  const loopSimulation = React.useCallback(() => {
+    setGrid((grid) => {
+      const newGrid = simulate(grid);
+      if (newGrid === grid) setRunning(false);
+      return newGrid;
+    });
+    loopRef.current = window.setTimeout(loopSimulation, 1000 / fps);
+  }, [fps]);
+
   React.useEffect(() => {
-    const runSimulation = () => {
-      setGrid((g) =>
-        g.map((row, i) =>
-          row.map((_col, j) => {
-            let neighbors = 0;
-            for (let x = -1; x <= 1; x++) {
-              for (let y = -1; y <= 1; y++) {
-                if (x === 0 && y === 0) continue;
-                const newI = (i + x + size) % size;
-                const newJ = (j + y + size) % size;
-                if (g[newI]?.[newJ]) neighbors++;
-              }
-            }
-            if (neighbors < 2 || neighbors > 3) return false;
-            if (neighbors === 3) return true;
-            return g[i][j];
-          }),
-        ),
-      );
-      loopRef.current = setTimeout(runSimulation, 1000 / fps);
-    };
-    if (running) loopRef.current = setTimeout(runSimulation, 1000 / fps);
+    if (running) loopRef.current = window.setTimeout(loopSimulation);
     return () => {
       if (loopRef.current) clearTimeout(loopRef.current);
     };
-  }, [running, fps]);
+  }, [running, loopSimulation]);
 
   return (
     <div className="flex min-h-screen flex-col items-center gap-4 bg-slate-900 p-4 font-sans text-white">
@@ -141,8 +131,8 @@ export const App = () => {
       </div>
 
       <div className="grid border border-slate-600" style={{ gridTemplateColumns: `repeat(${size}, 15px)` }}>
-        {grid.map((rows, i) =>
-          rows.map((_, j) => (
+        {grid.map((row, i) =>
+          row.map((_, j) => (
             <div
               key={`${i}-${j}`}
               onClick={
@@ -155,9 +145,11 @@ export const App = () => {
                         ),
                       )
               }
-              className={`h-[15px] w-[15px] border border-slate-800 ${
-                grid[i][j] ? "bg-cyan-400" : ""
-              } ${running ? "cursor-not-allowed" : "cursor-pointer"}`}
+              className={clsx("h-[15px] w-[15px] border border-slate-800", {
+                "bg-cyan-400": grid[i][j],
+                "cursor-not-allowed": running,
+                "cursor-pointer": !running,
+              })}
             />
           )),
         )}
