@@ -1,0 +1,10 @@
+node_modules/
+build/
+dist/
+fixtures/
+release/
+public/
+coverage/
+traceDir/
+*.min.js
+*.min.js.map
