@@ -28,3 +28,16 @@ Looks good, fast and usable, speed toggling is fun.
 ### Budget
 
 1/2 an hour
+
+## Make it fast
+
+### Focus
+
+- Ensure performance is easily checkable when making changes to the core algorithm
+- Check flame graph for performance issues in React
+- Ensure we attain the target calculation per second
+- Ensure all UX interactions are all snappy and pleasant
+
+### Budget
+
+1 hour

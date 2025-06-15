@@ -6,7 +6,6 @@ const prod = process.env.NODE_ENV === "production";
 const dev = !prod;
 const host = process.env.HOST || "0.0.0.0";
 const port = parseInt(process.env.PORT || "9000");
-const ReactCompilerConfig = {};
 
 export default defineConfig(({ mode }) => ({
   base: mode === "gh-pages" ? `/gof/` : "./",
@@ -33,5 +32,5 @@ export default defineConfig(({ mode }) => ({
   build: { chunkSizeWarningLimit: 2000, sourcemap: false },
   hmr: host ? { protocol: "ws", host, port: port + 1 } : undefined,
   esbuild: { sourcemap: false },
-  plugins: [tailwindcss(), react({ babel: { plugins: [["babel-plugin-react-compiler", ReactCompilerConfig]] } })],
+  plugins: [react(), tailwindcss()],
 }));

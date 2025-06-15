@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+.grid {
+  cursor: pointer;
+}
+
+.grid.running {
+  cursor: not-allowed;
+}
+
+.grid > div {
+  border-color: var(--color-slate-800);
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+  width: 15px;
+  height: 15px;
+
+  &[data-alive="true"] {
+    background-color: var(--color-cyan-400);
+  }
+}

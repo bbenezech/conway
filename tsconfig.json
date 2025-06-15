@@ -23,7 +23,6 @@
     "allowUnusedLabels": false,
     "allowUnreachableCode": false,
     "assumeChangesOnlyAffectDirectDependencies": true,
-    "exactOptionalPropertyTypes": true,
     "noImplicitReturns": true,
     "noImplicitOverride": true,
     "lib": ["es2024", "dom"],
