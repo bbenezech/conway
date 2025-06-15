@@ -41,3 +41,7 @@ Looks good, fast and usable, speed toggling is fun.
 ### Budget
 
 1 hour
+
+## Sell it
+
+- Deploy on Github Actions
