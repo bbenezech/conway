@@ -12,7 +12,12 @@ export function Grid({
   onCellClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   running: boolean;
 }) {
-  const style = React.useMemo(() => ({ gridTemplateColumns: `repeat(${grid.length}, 15px)` }), [grid.length]);
+  const minSize = Math.min(window.innerWidth, window.innerHeight);
+  const cellSize = Math.floor((minSize * 0.7) / grid.length);
+  const style = React.useMemo(
+    () => ({ gridTemplateColumns: `repeat(${grid.length}, ${cellSize}px)`, "--cell-size": `${cellSize}px` }),
+    [grid.length, cellSize],
+  );
 
   return (
     <div className={clsx("grid border border-slate-600", { running })} style={style}>
