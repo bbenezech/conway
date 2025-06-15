@@ -8,7 +8,7 @@ const host = process.env.HOST || "0.0.0.0";
 const port = parseInt(process.env.PORT || "9000");
 
 export default defineConfig(({ mode }) => ({
-  base: mode === "gh-pages" ? `/gof/` : "./",
+  base: mode === "gh-pages" ? `/conway/` : "./",
   server: {
     host,
     port,
